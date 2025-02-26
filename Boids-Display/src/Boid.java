@@ -74,9 +74,14 @@ public class Boid {
             y = 0;
     }
 
+    public void updateDirection() {
+        direction = Math.toDegrees(Math.atan2(y,x));
+    }
+
     // Boid getters and setters
     public double getViewDistance() {return viewDistance;}
-
+    public double getX() {return x;}
+    public double getY() {return y;}
     public void setX(double x) {this.x = x;}
     public void setY(double y) {this.y = y;}
     public void setVX(double vx) {this.vx = vx;}

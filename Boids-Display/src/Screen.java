@@ -32,6 +32,9 @@ public class Screen {
         for(int i = 0; i < boids.size(); i++) {
             // code that handles boid updates
             boids.get(i).updateSector(sectors);
+            boids.get(i).changeX(500 * deltaTime);
+            boids.get(i).changeY(500 * deltaTime);
+            boids.get(i).updateDirection();
         }
     }
 

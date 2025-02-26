@@ -62,7 +62,6 @@ public class boidDemo{
 
         // creates the screen
         Screen screen = new Screen(sizeX, sizeY);
-        //ScreenFX.setScreen(screen);
 
         // creates sectors for optimization
         screen.createSectors(viewDistance);
@@ -77,20 +76,28 @@ public class boidDemo{
             screen.getBoids().get(i).updateSector(screen.getSectors());
         }
 
+        if(render) {
+            ScreenFX.boids = screen.getBoids();
+            ScreenFX.screen = screen;
+            ScreenFX.launchScreen();
+        }
+
         // prints starting information for each boid
         screen.printBoids();
-
-        System.out.println("DeltaTime (Seconds): ");
 
         while(running) {
             long currentTime = System.nanoTime();   // gets current time in nanoseconds
             double deltaTime = (currentTime - previousTime) / 1_000_000_000.0;  // evaluates deltaTime in nanoseconds and converts to seconds
 
-            System.out.print("\r" + deltaTime); // prints deltaTime
 
             screen.Update(deltaTime);   // updates the screen
 
             previousTime = currentTime; // sets the previous time to the current time to prepare for the next update call
+
+            if(render) {
+                ScreenFX.boids = screen.getBoids();
+                ScreenFX.screen = screen;
+            }
         }
     }
 }
