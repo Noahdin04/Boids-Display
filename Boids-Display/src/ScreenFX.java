@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ public class ScreenFX extends Application {
 
     public static ArrayList<Boid> boids;
     public static Screen screen;
+
+    public double boidSideLength;
+    public double boidWidth;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -32,6 +36,18 @@ public class ScreenFX extends Application {
             circle.setRadius(boids.get(i).getViewDistance());
             boidCircles.add(circle);
             pane.getChildren().add(circle);
+        }
+
+        for(int i = 0; i < boids.size(); i++) {
+
+            Polygon polygon = new Polygon();
+            double x = boids.get(i).getX();
+            double y = boids.get(i).getY();
+            double x2 = boids.get(i).getX();
+            double y2 = boids.get(i).getY();
+            double x3 = boids.get(i).getX();
+            double y3 = boids.get(i).getY();
+            polygon.getPoints().addAll(x,y,x2,y2,x3,y3);
         }
 
         AnimationTimer timer = new AnimationTimer() {

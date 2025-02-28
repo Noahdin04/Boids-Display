@@ -4,6 +4,8 @@ public class Boid {
     private Screen screen;
 
     private double x,y; // x position and y position
+    private double prevX, prevY;
+
     private double vx,vy; // x velocity and y velocity
     private double ax,ay; // x acceleration and y acceleration
 
@@ -50,6 +52,7 @@ public class Boid {
     public void printBoid() {
         System.out.println("--------------------");
         System.out.println("Sector [" + XSectorIndex + "][" + YSectorIndex + "]");
+        System.out.println("Direction: " + direction);
         System.out.println("X position: " + x);
         System.out.println("Y position: " + y);
         System.out.println("X velocity: " + vx);
@@ -63,15 +66,17 @@ public class Boid {
     }
 
     public void changeX(double change) {
+        prevX = x;
         x += change;
         if(x > screen.getSizeX())
-            x = 0;
+            x += change - screen.getSizeX();
     }
 
     public void changeY(double change) {
+        prevY = y;
         y += change;
         if(y > screen.getSizeY())
-            y = 0;
+            y += change - screen.getSizeY();
     }
 
     public void updateDirection() {
@@ -82,6 +87,8 @@ public class Boid {
     public double getViewDistance() {return viewDistance;}
     public double getX() {return x;}
     public double getY() {return y;}
+    public double getDirection() {return direction;}
+
     public void setX(double x) {this.x = x;}
     public void setY(double y) {this.y = y;}
     public void setVX(double vx) {this.vx = vx;}
