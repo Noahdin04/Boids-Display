@@ -61,7 +61,7 @@ public class boidDemo{
         long previousTime = System.nanoTime();
 
         // creates the screen
-        Screen screen = new Screen(sizeX, sizeY);
+        Screen screen = new Screen(sizeX, sizeY, 200);
 
         // creates sectors for optimization
         screen.createSectors(viewDistance);

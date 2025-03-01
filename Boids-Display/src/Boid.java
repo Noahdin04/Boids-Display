@@ -4,7 +4,8 @@ public class Boid {
     private Screen screen;
 
     private double x,y; // x position and y position
-    private double prevX, prevY;
+    private double[] prevX = new double[20];
+    private double[] prevY = new double[20];
 
     private double vx,vy; // x velocity and y velocity
     private double ax,ay; // x acceleration and y acceleration
@@ -52,7 +53,7 @@ public class Boid {
     public void printBoid() {
         System.out.println("--------------------");
         System.out.println("Sector [" + XSectorIndex + "][" + YSectorIndex + "]");
-        System.out.println("Direction: " + direction);
+        System.out.println("Direction: " + getDirection());
         System.out.println("X position: " + x);
         System.out.println("Y position: " + y);
         System.out.println("X velocity: " + vx);
@@ -66,21 +67,39 @@ public class Boid {
     }
 
     public void changeX(double change) {
-        prevX = x;
+        for(int i = 0; i < 19; i++) {
+            prevX[i] = prevX[i + 1];
+        }
+        prevX[19] = x;
         x += change;
         if(x > screen.getSizeX())
             x += change - screen.getSizeX();
+        if(x < 0)
+            x += change + screen.getSizeX();
     }
 
     public void changeY(double change) {
-        prevY = y;
+        for(int i = 0; i < 19; i++) {
+            prevY[i] = prevY[i + 1];
+        }
+        prevY[19] = y;
         y += change;
         if(y > screen.getSizeY())
             y += change - screen.getSizeY();
+        if(y < 0)
+            y += change + screen.getSizeY();
     }
 
     public void updateDirection() {
-        direction = Math.toDegrees(Math.atan2(y,x));
+        double avgChangeX = 0;
+        double avgChangeY = 0;
+        for(int i = 0; i < 20; i++) {
+            avgChangeX += prevX[i];
+            avgChangeY += prevY[i];
+        }
+        avgChangeX /= 20;
+        avgChangeY /= 20;
+        setDirection(Math.toDegrees(Math.atan2(y - avgChangeY,x - avgChangeX)));
     }
 
     // Boid getters and setters
@@ -88,6 +107,22 @@ public class Boid {
     public double getX() {return x;}
     public double getY() {return y;}
     public double getDirection() {return direction;}
+    public double getFov() {return fov;}
+
+    public double getPrevX() {
+        double avgChangeX = 0;
+        for(int i = 0; i < 5; i++) {
+            avgChangeX += prevX[i];
+        }
+        return avgChangeX/5;
+    }
+    public double getPrevY() {
+        double avgChangeY = 0;
+        for(int i = 0; i < 5; i++) {
+            avgChangeY += prevY[i];
+        }
+        return avgChangeY/5;
+    }
 
     public void setX(double x) {this.x = x;}
     public void setY(double y) {this.y = y;}
@@ -100,4 +135,5 @@ public class Boid {
     public void setSeparation(double separation) {this.separation = separation;}
     public void setAlignment(double alignment) {this.alignment = alignment;}
     public void setCohesion(double cohesion) {this.cohesion = cohesion;}
+    public void setDirection(double direction) {this.direction = direction;}
 }
