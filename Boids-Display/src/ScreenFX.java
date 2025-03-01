@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -19,6 +18,27 @@ public class ScreenFX extends Application {
 
     public double boidSideLength;
     public double boidWidth;
+
+/*---| JavaFX Coordinate System |---*/
+/*
+
+    ■ = visible screen
+
+                 (0,-1)
+    (-1,-1) _ _ _ _ | _ _ _ _ (1,-1)
+           |        |        |
+           |        |        |
+           |        |        |
+           |        |        |
+    (-1,0) _ _ _ _ _ _ _ _ _ _ (1,0)
+           |        |■■■■■■■■|
+           |        |■■■■■■■■|
+           |        |■■■■■■■■|
+           |        |■■■■■■■■|
+     (-1,1) _ _ _ _ |■_■_■_■_ (1,1)
+                 (0, 1)
+
+ */
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -47,18 +67,6 @@ public class ScreenFX extends Application {
             pane.getChildren().add(visionLine2);
         }
 
-//        for(int i = 0; i < boids.size(); i++) {
-//
-//            Polygon polygon = new Polygon();
-//            double x = boids.get(i).getX();
-//            double y = boids.get(i).getY();
-//            double x2 = boids.get(i).getX();
-//            double y2 = boids.get(i).getY();
-//            double x3 = boids.get(i).getX();
-//            double y3 = boids.get(i).getY();
-//            polygon.getPoints().addAll(x,y,x2,y2,x3,y3);
-//        }
-
         // Acts as the update loop for the JavaFX screen which runs every frame
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -72,6 +80,8 @@ public class ScreenFX extends Application {
                     visionArcs.get(i).setCenterY(boids.get(i).getY());
                     visionArcs.get(i).setStartAngle(-boids.get(i).getDirection() + boids.get(i).getFov()/2);
                     visionArcs.get(i).setLength(-boids.get(i).getFov());
+
+//                    visionArcs.get(i).rotateProperty().add(20); Maybe use this to rotate the fov around the origin rather than calculate the starting and ending positions of the arc
 
                     // updates the position of the lines connecting the ends of the vision arc to the position of the boid
                     visionLines.get(i).setStartX(boids.get(i).getX());

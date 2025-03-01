@@ -84,7 +84,7 @@ public class boidDemo{
 
         // prints starting information for each boid
         screen.printBoids();
-
+        double timer = 0;
         while(running) {
             long currentTime = System.nanoTime();   // gets current time in nanoseconds
             double deltaTime = (currentTime - previousTime) / 1_000_000_000.0;  // evaluates deltaTime in nanoseconds and converts to seconds
@@ -98,6 +98,13 @@ public class boidDemo{
                 ScreenFX.boids = screen.getBoids();
                 ScreenFX.screen = screen;
             }
+
+            if(timer >= 10)
+            {
+                timer = 0;
+                screen.printBoids();
+            }
+            timer += deltaTime;
         }
     }
 }
