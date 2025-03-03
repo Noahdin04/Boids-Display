@@ -7,20 +7,13 @@ public class Screen {
 
     double speed;
 
-    ArrayList<Boid>[][] sectors;
+    double screenTime = 0;
+
+    ArrayList[][] sectors;
 
     ArrayList<Boid> boids;
 
     // Screen Constructors
-
-    public Screen() {
-        sizeX = 400;
-        sizeY = 400;
-        speed = 150;
-        previousTime = System.nanoTime();
-        boids = new ArrayList<Boid>();
-
-    }
 
     public Screen(int sizeX, int sizeY, double speed) {
         this.sizeX = sizeX;
@@ -33,39 +26,21 @@ public class Screen {
     // Screen functions
 
     public void Update(double deltaTime) {
-        for(int i = 0; i < boids.size(); i++) {
-            // code that handles boid updates
-            calculateDirection(i, deltaTime);
-            boids.get(i).updateSector(sectors);
-            boids.get(i).updateDirection();
+        for (Boid boid : boids) {
+            boid.updateSector(sectors);
+            boid.changePosition(speed * deltaTime,speed * deltaTime);
         }
-    }
 
-    public void calculateDirection(int index, double deltaTime) {
-        switch(index % 4){
-            case 0:
-                boids.get(index).changeX(speed * deltaTime);
-                boids.get(index).changeY(speed * deltaTime);
-                break;
-            case 1:
-                boids.get(index).changeX(-speed * deltaTime);
-                boids.get(index).changeY(speed * deltaTime);
-                break;
-            case 2:
-                boids.get(index).changeX(speed * deltaTime);
-                boids.get(index).changeY(-speed * deltaTime);
-                break;
-            case 3:
-                boids.get(index).changeX(-speed * deltaTime);
-                boids.get(index).changeY(-speed * deltaTime);
-                break;
-            default:
-                break;
+        // updates total time that the screen has been running (Max screen time is 1.7976931348623157E+308 seconds AKA a really, REALLY, long time)
+        screenTime += deltaTime;
+        if(screenTime == Double.POSITIVE_INFINITY) {
+            screenTime = 0;
         }
     }
 
     public void addBoid(double viewDistance, double fov, double separation, double alignment, double cohesion) {
         Boid boid = new Boid(this, viewDistance, fov, separation, alignment, cohesion);
+        boids.add(boid);
     }
 
     public void printBoids() {

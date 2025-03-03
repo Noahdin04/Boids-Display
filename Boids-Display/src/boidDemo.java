@@ -3,6 +3,8 @@ import javafx.application.Application;
 import java.util.Scanner;
 
 public class boidDemo{
+    public static double speed = 200;
+
     public static int numBoids;
     public static int sizeX;
     public static int sizeY;
@@ -16,7 +18,7 @@ public class boidDemo{
 
     public static boolean render;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
 
@@ -37,14 +39,18 @@ public class boidDemo{
         System.out.println("Enter boids fov: ");
         fov = sc.nextDouble();
 
-        System.out.println("Enter the separation strength (0.0-1.0): ");
-        separation = sc.nextDouble();
+//        System.out.println("Enter the separation strength (0.0-1.0): ");
+//        separation = sc.nextDouble();
+//
+//        System.out.println("Enter the alignment strength (0.0-1.0): ");
+//        alignment = sc.nextDouble();
+//
+//        System.out.println("Enter the cohesion strength (0.0-1.0): ");
+//        cohesion = sc.nextDouble();
 
-        System.out.println("Enter the alignment strength (0.0-1.0): ");
-        alignment = sc.nextDouble();
-
-        System.out.println("Enter the cohesion strength (0.0-1.0): ");
-        cohesion = sc.nextDouble();
+        separation = 1;
+        alignment = 1;
+        cohesion = 1;
 
         System.out.println("Render boids?(y/n): ");
         String response = sc.next();
@@ -60,10 +66,8 @@ public class boidDemo{
         boolean running = true;
         long previousTime = System.nanoTime();
 
-        // creates the screen
-        Screen screen = new Screen(sizeX, sizeY, 200);
-
-        // creates sectors for optimization
+        // Screen initialization
+        Screen screen = new Screen(sizeX, sizeY, speed);
         screen.createSectors(viewDistance);
 
         // adds boids to the screen
@@ -77,18 +81,16 @@ public class boidDemo{
         }
 
         if(render) {
-            ScreenFX.boids = screen.getBoids();
             ScreenFX.screen = screen;
+            ScreenFX.boids = ScreenFX.screen.getBoids();
             ScreenFX.launchScreen();
         }
 
-        // prints starting information for each boid
-        screen.printBoids();
         double timer = 0;
+        // prints starting information for each boid
         while(running) {
             long currentTime = System.nanoTime();   // gets current time in nanoseconds
             double deltaTime = (currentTime - previousTime) / 1_000_000_000.0;  // evaluates deltaTime in nanoseconds and converts to seconds
-
 
             screen.Update(deltaTime);   // updates the screen
 
@@ -99,12 +101,13 @@ public class boidDemo{
                 ScreenFX.screen = screen;
             }
 
-            if(timer >= 10)
-            {
+            System.out.println(screen.getBoids().getFirst().getDirection());
+
+            timer += deltaTime;
+            if(timer >= 30) {
                 timer = 0;
                 screen.printBoids();
             }
-            timer += deltaTime;
         }
     }
 }
