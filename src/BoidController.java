@@ -65,6 +65,7 @@ public class BoidController {
             for(Boid boid : boids) {
                 boid.updateSector(sectors);
                 boid.changePosition(Math.sin((totalTime / 2) * Math.PI) * speed * deltaTime, Math.cos((totalTime / 2) * Math.PI) * speed * deltaTime);
+                //TODO: update boidsInVision array to accurately contain each boid in its vision (Only checks adjacent sectors for nearby boids)
             }
 
             if(timer >= 10){
@@ -93,7 +94,7 @@ public class BoidController {
         }
     }
 
-    public void printBoids() {
+    public void printBoids() { // prints boids
         for(int i = 0; i < boids.size(); i++) {
             System.out.println("Boid " + i);
             System.out.println(boids.get(i));

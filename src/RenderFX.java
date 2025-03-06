@@ -54,8 +54,7 @@ public class RenderFX extends Application {
         ArrayList<Polygon> visionPolygons = new ArrayList<Polygon>();
 
         for(int i = 0; i < controller.getBoids().size(); i++) {
-
-            Color fillColor = new Color(Math.random(), Math.random(), Math.random(), 0.25);
+            Color fillColor = new Color(Math.random(), Math.random(), Math.random(), 0.25); // fill color representing vision
 
             Arc arc = new Arc();
             arc.setFill(fillColor);
@@ -87,11 +86,13 @@ public class RenderFX extends Application {
                     double X = boids.get(i).getX();
                     double Y = screenHeight - boids.get(i).getY();
 
+                    // finds the x and y values for the starting and ending positions of the vision arc
                     double lineEndX = X + boids.get(i).getViewDistance() * Math.cos(Math.toRadians(boids.get(i).getDirection() - (boids.get(i).getFieldOfView()/2)));
                     double lineEndY = Y - boids.get(i).getViewDistance() * Math.sin(Math.toRadians(boids.get(i).getDirection() - (boids.get(i).getFieldOfView()/2)));
                     double line2EndX = X + boids.get(i).getViewDistance() * Math.cos(Math.toRadians(boids.get(i).getDirection() + (boids.get(i).getFieldOfView()/2)));
                     double line2EndY = Y - boids.get(i).getViewDistance() * Math.sin(Math.toRadians(boids.get(i).getDirection() + (boids.get(i).getFieldOfView()/2)));
 
+                    // draws the arcs that represent how far the boid can see
                     visionArcs.get(i).setCenterX(X);
                     visionArcs.get(i).setCenterY(Y);
                     visionArcs.get(i).setRadiusX(boids.get(i).getViewDistance());
@@ -99,20 +100,23 @@ public class RenderFX extends Application {
                     visionArcs.get(i).setStartAngle(boids.get(i).getDirection() - (boids.get(i).getFieldOfView()/2));
                     visionArcs.get(i).setLength(boids.get(i).getFieldOfView());
 
+                    // draws a line to the start of the vision arc representing one edge of its vision
                     visionLines.get(i).setStartX(X);
                     visionLines.get(i).setStartY(Y);
                     visionLines.get(i).setEndX(lineEndX);
                     visionLines.get(i).setEndY(lineEndY);
 
+                    // draws a line to the end of the vision arc representing the other edge of its vision
                     visionLines2.get(i).setStartX(X);
                     visionLines2.get(i).setStartY(Y);
                     visionLines2.get(i).setEndX(line2EndX);
                     visionLines2.get(i).setEndY(line2EndY);
 
+                    // fills in the area between the starting point of vision and the arc so that the fill color accurately represents its vision
                     visionPolygons.get(i).getPoints().clear();
                     visionPolygons.get(i).getPoints().addAll(X,Y,lineEndX,lineEndY,line2EndX,line2EndY);
 
-                    //TODO: next step is to calculate the boid body points
+                    //TODO: next step is to calculate the boid body points and render the actual boid
                 }
             }
         };timer.start();
