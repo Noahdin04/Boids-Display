@@ -48,11 +48,14 @@ public class BoidController {
         // Timer for debugging, will be removed at some point.
         double timer = 0;
 
+        // Starts the RenderFX thread if usingJavaFX
         if(usingJavaFX) {
             RenderFX.launchScreen();
         }
 
-        // Update Loop
+        printEmptySectors();
+
+        // Main Update loop
         boolean running = true;
         while(running) {
             long currentTime = System.nanoTime();
@@ -69,7 +72,7 @@ public class BoidController {
             }
 
             if(timer >= 10){
-                System.out.println("Runtime: " + totalTime +"\n\nBoids:\n-------------------");
+                printRuntime();
                 printBoids();
                 timer = 0;
             }
@@ -78,6 +81,7 @@ public class BoidController {
         }
     }
 
+    // creates sectors with the amount of sectors being determined by the screens width and height divided by the vision range of the boids
     @SuppressWarnings("unchecked") // Unchecked ArrayList type is handled by iterating through the 2D ArrayList array and setting each element equal to a new ArrayList<Boid> (I just wanted the yellow squiggles to go away)
     public void createSectors() {
         sectors = new ArrayList[(int)(screenWidth/boidViewDistance)][(int)(screenHeight/boidViewDistance)];
@@ -88,16 +92,34 @@ public class BoidController {
         }
     }
 
-    public void createBoids(int num) { // creates num amount of boids and adds them to the boids ArrayList
+    // creates num amount of boids and adds them to the boids ArrayList
+    public void createBoids(int num) {
         for(int i = 0; i < num; i++) {
             boids.add(new Boid(this, boidViewDistance, boidFieldOfView));
         }
     }
 
-    public void printBoids() { // prints boids
+    // prints every boid in the boids ArrayList
+    public void printBoids() {
+        System.out.println("Boids: \n--------------------");
         for(int i = 0; i < boids.size(); i++) {
             System.out.println("Boid " + i);
-            System.out.println(boids.get(i));
+            System.out.println(boids.get(i) + "--------------------");
+        }
+    }
+
+    // prints total runtime in seconds
+    public void printRuntime() {
+        System.out.println("Runtime: " + totalTime +"\n");
+    }
+
+    // prints the 2D array of sectors without any information about what each sector contains.
+    public void printEmptySectors() {
+        for(int i = 0; i < sectors.length; i++) {
+            for(int j = 0; j < sectors[i].length; j++) {
+                System.out.print("[" + i + "][" + j + "]   ");
+            }
+            System.out.println();
         }
     }
 

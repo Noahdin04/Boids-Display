@@ -9,7 +9,7 @@ public class BoidDemo {
         String input = sc.next();
 
         if(input.equalsIgnoreCase("y")) {
-            // run program and render using separate javaFX thread
+            // run program and render using additional JavaFX thread alongside the main thread
             BoidController controller = new BoidController(true);
         } else {
             // run program without any rendering

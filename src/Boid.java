@@ -21,7 +21,8 @@ public class Boid {
         this.fieldOfView = fieldOfView;
     }
 
-    public void updateSector(ArrayList<Boid>[][] sectors) { // checks and update which sector contains this boid
+    // Updates which sector the boid is currently in
+    public void updateSector(ArrayList<Boid>[][] sectors) {
         int newSectorIndexX = (int)(x / ((double) controller.getScreenWidth() / sectors.length));
         int newSectorIndexY = (int)(y / ((double) controller.getScreenHeight() / sectors[0].length));
         if(newSectorIndexX != sectorIndexX || newSectorIndexY != sectorIndexY) {
@@ -32,6 +33,7 @@ public class Boid {
         }
     }
 
+    // Changes the position of the boid by changeX and changeY as well as updates its direction based on the change
     public synchronized void changePosition(double changeX, double changeY) {
         double previousX = x;
         double previousY = y;
@@ -54,8 +56,9 @@ public class Boid {
         direction = Math.toDegrees(Math.atan2(changeInY, changeInX));
     }
 
+    // checks nearby sectors for boids that could be within the boids vision cone, if a boid is in its vision cone then it gets added to the boidsInView array
     public void findBoidsInVision() {
-        // look in nearby sectors for boids that might be in view and then check if they are in view
+
     }
 
     @Override
@@ -64,8 +67,7 @@ public class Boid {
         output = "Sector [" + sectorIndexX + "][" +sectorIndexY + "]\n" +
                  "X position: " + x + "\n" +
                  "Y position: " + y + "\n" +
-                 "Direction: " + direction + "\n" +
-                 "--------------------";
+                 "Direction: " + direction + "\n";
         return output;
     }
 
