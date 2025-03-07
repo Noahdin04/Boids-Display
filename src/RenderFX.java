@@ -153,6 +153,12 @@ public class RenderFX extends Application {
         primaryStage.show();
     }
 
+    @Override
+    public void stop() {
+        // closes both the JavaFX thread and the main thread when the JavaFX screen is closed
+        System.exit(0);
+    }
+
     // Starts the RenderFX thread
     public static void launchScreen() {
         if(!hasLaunched) {
