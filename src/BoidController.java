@@ -67,7 +67,8 @@ public class BoidController {
 
             for(Boid boid : boids) {
                 boid.updateSector(sectors);
-                boid.changePosition(Math.sin((totalTime / 2) * Math.PI) * speed * deltaTime, Math.cos((totalTime / 2) * Math.PI) * speed * deltaTime);
+//                boid.changePosition(Math.sin((totalTime / 2) * Math.PI) * speed * deltaTime, Math.cos((totalTime / 2) * Math.PI) * speed * deltaTime);
+                boid.changePosition(speed * deltaTime, Math.cos((totalTime / 2) * Math.PI) * speed * deltaTime);
                 //TODO: update boidsInVision array to accurately contain each boid in its vision (Only checks adjacent sectors for nearby boids)
             }
 

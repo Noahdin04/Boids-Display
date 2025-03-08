@@ -5,14 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class RenderFX extends Application {
     private static boolean hasLaunched = false;
@@ -53,6 +50,8 @@ public class RenderFX extends Application {
         Pane pane = new Pane();
         Scene scene = new Scene(pane, controller.getScreenWidth(), controller.getScreenHeight());
 
+        scene.setFill(Color.GRAY);
+
         // ArrayLists containing the JavaFX objects to be rendered on screen
         ArrayList<Arc> visionArcs = new ArrayList<Arc>();
         ArrayList<Line> visionLines = new ArrayList<Line>();
@@ -90,7 +89,7 @@ public class RenderFX extends Application {
 
             // Boid Body object creation
             Polygon boidPolygon = new Polygon();
-            boidPolygon.setFill(Color.RED);
+            boidPolygon.setFill(Color.WHITE);
             boidPolygon.setStroke(Color.BLACK);
             boidBodies.add(boidPolygon);
             pane.getChildren().add(boidPolygon);
